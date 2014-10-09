@@ -54,6 +54,10 @@ app.get('/channels', restBuddy(sequelize, {
   }
 }));
 
+// Using the resources generator.
+restBuddy.resources(sequelize, app, 'channels');
+
+// Not using the resources generator (equivalent to the above).
 app.get('/channels/:id', restBuddy(sequelize));
 app.patch('/channels/:id', restBuddy(sequelize));
 app.put('/channels/:id', restBuddy(sequelize));
