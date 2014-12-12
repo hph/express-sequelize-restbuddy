@@ -133,22 +133,35 @@ describe('Non-relational endpoints', function () {
 
   describe('Update', function () {
     beforeEach(function () {
-      this.app.put('/users/:id', restBuddy(sequelize), sendData);
       this.app.patch('/users/:id', restBuddy(sequelize), sendData);
     });
 
-    it('returns HTTP 200 (OK) with updated user (PUT)', function (done) {
+    it('returns HTTP 200 (OK) with updated user (PATCH)', function (done) {
       request(this.app)
-        .put('/users/1')
+        .patch('/users/1')
         .send({ name: 'Snow' })
         .expect(200)
         .expect(/Snow/)
         .end(done);
     });
 
-    it('returns HTTP 200 (OK) with updated user (PATCH)', function (done) {
+    it('returns HTTP 404 (Not Found) for non-existent user', function (done) {
       request(this.app)
-        .patch('/users/1')
+        .patch('/users/235222')
+        .send({ name: 'Snow' })
+        .expect(404)
+        .end(done);
+    });
+  });
+
+  describe('Replace', function () {
+    beforeEach(function () {
+      this.app.put('/users/:id', restBuddy(sequelize), sendData);
+    });
+
+    it('returns HTTP 200 (OK) with replaced user (PUT)', function (done) {
+      request(this.app)
+        .put('/users/1')
         .send({ name: 'Snow' })
         .expect(200)
         .expect(/Snow/)
